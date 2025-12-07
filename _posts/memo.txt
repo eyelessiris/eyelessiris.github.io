@@ -1,0 +1,536 @@
+그냥 이 파일 하나만 `_posts/template.md` 같은 데 넣어두고, 새 글 만들 때마다 복붙해서 쓰면 됩니다.
+요청한 내용(Chirpy + Jekyll 문서에 나온 것들)을 최대한 다 넣어서 만들었습니다.
+
+---
+
+````markdown
+---
+# 기본 정보
+title: "여기에 글 제목을 입력하세요"
+date: 2025-12-07 00:00:00 +0900   # 실제 작성 시점으로 수정
+categories: [TopCategory, SubCategory]   # 예: [ComputerScience, DataStructure]
+tags: [tag1, tag2, tag3]        # 소문자 권장: [tree, graph, datastructure]
+
+# 글 요약 (홈, RSS, 글 상단에 표시)
+description: "이 글에 대한 짧은 요약을 여기에 적습니다."
+
+# 작성자 정보 (선택)
+# _data/authors.yml에 정의한 author_id 사용
+# author: author_id
+# 또는 여러 명
+# authors: [author1_id, author2_id]
+
+# 상단 고정 여부 (홈 화면 맨 위에 고정)
+pin: false
+
+# TOC(우측 목차) 표시 여부
+toc: true
+
+# 댓글 사용 여부 (전역 설정과 별개로 이 글만 끌 수 있음)
+comments: true
+
+# 이 글 전용 미디어 경로 prefix
+# 예: /assets/media/tree/ 안에 이미지를 넣고, 본문에는 파일명만 써도 됨
+media_subpath: /assets/media/example/
+
+# 대표 이미지(프리뷰 이미지)
+image:
+  path: preview.png                  # media_subpath 기준 경로 또는 절대경로
+  alt: "대표 이미지 설명"
+  lqip: /assets/media/example/preview-lqip.png   # 선택: 저해상도 프리뷰
+
+# 수식(MathJax) 사용 여부
+math: false
+
+# Mermaid 다이어그램 사용 여부
+mermaid: false
+
+# 발췌(excerpt) 분리자 설정 (Jekyll 기본 기능)
+excerpt_separator: <!--more-->
+
+# Liquid 렌더링 끄기 (Liquid 코드를 그대로 보여주고 싶을 때 사용 / 기본은 주석)
+# render_with_liquid: false
+
+# 템플릿 파일이 실제로는 공개되지 않게 하려면
+published: false
+---
+
+# 여기서부터 본문입니다 (H1 제목)
+
+이 첫 번째 문단은 기본적으로 **발췌(excerpt)** 로 사용됩니다.  
+홈 화면 포스트 목록, Further Reading, RSS 등에서 요약으로 쓰입니다.
+
+<!--more-->
+
+위의 `excerpt_separator: <!--more-->` 설정 때문에,  
+이 줄 아래부터는 전체 본문으로만 표시되고 요약에는 포함되지 않습니다.
+
+---
+
+## 1. 파일 이름 규칙 (Naming and Path)
+
+이 템플릿을 실제 글로 사용할 때는 파일 이름을 다음 형식으로 만드세요:
+
+- `_posts/2025-12-07-my-first-post.md`
+- `_posts/2025-12-07-tree-and-graph.md`
+
+형식:
+
+- `YEAR-MONTH-DAY-title.MARKUP`
+- MARKUP은 `md` 또는 `markdown`
+
+---
+
+## 2. 카테고리와 태그 (Categories and Tags)
+
+프론트 매터 예시:
+
+~~~yaml
+categories: [ComputerScience, DataStructure]
+tags: [tree, graph, dfs, bfs]
+~~~
+
+- `categories` 는 최대 2개 사용 권장
+- `tags` 는 0개 이상, 원하는 만큼
+- Jekyll의 `site.categories`, `site.tags` 로 접근할 수 있음
+
+Jekyll 문서에 나온 태그/카테고리 루프 예시 (레이아웃/페이지에서 사용):
+
+~~~liquid
+{% for tag in site.tags %}
+  <h3>{{ tag[0] }}</h3>
+  <ul>
+    {% for post in tag[1] %}
+      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+{% endfor %}
+~~~
+
+카테고리도 비슷하게:
+
+~~~liquid
+{% for category in site.categories %}
+  <h3>{{ category[0] }}</h3>
+  <ul>
+    {% for post in category[1] %}
+      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+{% endfor %}
+~~~
+
+---
+
+## 3. 작성자 정보 (Author Information)
+
+`_data/authors.yml` 예시:
+
+~~~yaml
+haru:
+  name: "Haru"
+  twitter: "h4ru_dev"
+  url: "https://example.com"
+~~~
+
+프론트 매터에서 사용:
+
+~~~yaml
+author: haru
+# 또는
+authors: [haru, guest01]
+~~~
+
+이렇게 하면 `twitter:creator` 메타 태그가 생겨서 Twitter 카드/SEO에 도움됩니다.
+
+---
+
+## 4. 글 요약 (Post Description)
+
+프론트 매터에서:
+
+~~~yaml
+description: "이 글은 Chirpy 테마에서 새 글을 작성하는 방법을 정리한 포스트입니다."
+~~~
+
+- 홈, Further Reading, RSS, 포스트 상단에 요약으로 표시
+
+---
+
+## 5. 목차(TOC)와 댓글(Comments)
+
+특정 글에서만 TOC를 끄고 싶으면:
+
+~~~yaml
+toc: false
+~~~
+
+특정 글에서만 댓글을 끄고 싶으면:
+
+~~~yaml
+comments: false
+~~~
+
+---
+
+## 6. 미디어 경로, CDN, 이미지 (Media, URL Prefix, Images)
+
+### 6-1. media_subpath 사용 예시
+
+프론트 매터:
+
+~~~yaml
+media_subpath: /assets/media/example/
+~~~
+
+본문:
+
+```markdown
+![샘플 이미지](my-image.png)
+````
+
+→ 실제 URL: `/assets/media/example/my-image.png`
+(CDN 설정 시 `https://cdn.com/assets/media/example/my-image.png` 형식도 가능)
+
+전역 CDN 설정 예시 (`_config.yml`):
+
+```yaml
+cdn: https://cdn.com
+```
+
+---
+
+### 6-2. 이미지 캡션
+
+```markdown
+![img-description](/path/to/image.png)
+_이미지 캡션입니다._
+```
+
+---
+
+### 6-3. 이미지 크기 지정
+
+```markdown
+![Desktop View](/assets/img/sample/mockup.png){: w="700" h="400" }
+```
+
+* 또는 `width="700" height="400"` 형식도 가능
+
+---
+
+### 6-4. 이미지 정렬 (normal, left, right)
+
+```markdown
+![Desktop View](/assets/img/sample/mockup.png){: .normal }
+![Desktop View](/assets/img/sample/mockup.png){: .left }
+![Desktop View](/assets/img/sample/mockup.png){: .right }
+```
+
+정렬을 쓸 때는 캡션을 같이 사용하지 않는 것이 권장됩니다.
+
+---
+
+### 6-5. 다크/라이트 모드 전용 이미지
+
+```markdown
+![Light mode only](/path/to/light-mode.png){: .light }
+![Dark mode only](/path/to/dark-mode.png){: .dark }
+```
+
+---
+
+### 6-6. 그림자 효과
+
+```markdown
+![Desktop View](/assets/img/sample/mockup.png){: .shadow }
+```
+
+---
+
+### 6-7. 대표 이미지(Preview Image, LQIP)
+
+프론트 매터:
+
+```yaml
+image:
+  path: preview.png               # media_subpath 기반
+  alt: "프리뷰 이미지 설명"
+  lqip: /assets/media/example/preview-lqip.png
+```
+
+일반 이미지에 LQIP 적용:
+
+```markdown
+![이미지 설명](/path/to/image.png){: lqip="/path/to/lqip-file.png" }
+```
+
+---
+
+## 7. 소셜 미디어 임베드 (YouTube, Twitch, Bilibili, Spotify)
+
+```liquid
+{% include embed/youtube.html id='H-B46URT4mg' %}
+{% include embed/twitch.html id='1634779211' %}
+{% include embed/bilibili.html id='BV1Q44y1B7Wf' %}
+{% include embed/spotify.html id='3OuMIIFP5TxM8tLXMWYPGV' %}
+```
+
+Spotify 추가 옵션 예시:
+
+```liquid
+{% include embed/spotify.html id='3OuMIIFP5TxM8tLXMWYPGV' compact=1 %}
+{% include embed/spotify.html id='3OuMIIFP5TxM8tLXMWYPGV' dark=1 %}
+```
+
+---
+
+## 8. 비디오 / 오디오 파일 직접 임베드
+
+### 8-1. 비디오
+
+```liquid
+{%
+  include embed/video.html
+  src='/path/to/video.mp4'
+  types='ogg|mov'
+  poster='poster.png'
+  title='Demo video'
+  autoplay=true
+  loop=true
+  muted=true
+%}
+```
+
+### 8-2. 오디오
+
+```liquid
+{%
+  include embed/audio.html
+  src='/path/to/audio.mp3'
+  types='ogg|wav|aac'
+  title='Demo audio'
+%}
+```
+
+---
+
+## 9. 상단 고정 글 (Pinned Posts)
+
+프론트 매터:
+
+```yaml
+pin: true
+```
+
+* 여러 글에 `pin: true`를 지정 가능
+* 최신 날짜 순으로 상단에 고정됨
+
+---
+
+## 10. 프롬프트 박스 (Prompts: tip, info, warning, danger)
+
+```markdown
+> 정보성 메시지입니다.
+{: .prompt-info }
+
+> 팁입니다.
+{: .prompt-tip }
+
+> 경고 메시지입니다.
+{: .prompt-warning }
+
+> 위험 메시지입니다.
+{: .prompt-danger }
+```
+
+---
+
+## 11. 코드 관련 문법 (Syntax, Code Block, Filepath)
+
+### 11-1. 인라인 코드
+
+```markdown
+`inline code part`
+```
+
+### 11-2. 파일 경로 강조
+
+```markdown
+`/path/to/a/file.ext`{: .filepath}
+```
+
+### 11-3. 코드 블록 (기본)
+
+````markdown
+```
+This is a plaintext code snippet.
+```
+````
+
+### 11-4. 언어 지정
+
+````markdown
+```yaml
+key: value
+```
+````
+
+### 11-5. 줄 번호 숨기기
+
+````markdown
+```shell
+echo 'No more line numbers!'
+```
+{: .nolineno }
+````
+
+### 11-6. 파일명 표시
+
+````markdown
+```shell
+# content
+```
+{: file="path/to/file" }
+````
+
+---
+
+## 12. Liquid 코드 그대로 보여주기
+
+````liquid
+{% raw %}
+```liquid
+{% if product.title contains 'Pack' %}
+  This product's title contains the word Pack.
+{% endif %}
+````
+
+{% endraw %}
+
+````
+
+또는 (Jekyll 4 이상일 때) 프론트 매터에:
+
+~~~yaml
+render_with_liquid: false
+~~~
+
+---
+
+## 13. 수식(MathJax)
+
+프론트 매터:
+
+~~~yaml
+math: true
+~~~
+
+### 13-1. 블록 수식
+
+```markdown
+$$
+LaTeX_math_expression
+$$
+````
+
+### 13-2. 번호 있는 수식 + 레퍼런스
+
+```markdown
+$$
+\begin{equation}
+  LaTeX_math_expression
+  \label{eq:label_name}
+\end{equation}
+$$
+
+문서 안에서 \eqref{eq:label_name} 로 참조할 수 있습니다.
+```
+
+### 13-3. 인라인 수식 (한 줄 내부)
+
+```markdown
+"Lorem ipsum $$ LaTeX_math_expression $$ dolor sit amet."
+```
+
+### 13-4. 리스트 안의 인라인 수식 (앞 $ Escape 필요)
+
+```markdown
+1. \$$ LaTeX_math_expression $$
+2. \$$ LaTeX_math_expression $$
+3. \$$ LaTeX_math_expression $$
+```
+
+---
+
+## 14. Mermaid 다이어그램
+
+프론트 매터:
+
+```yaml
+mermaid: true
+```
+
+본문:
+
+````markdown
+```mermaid
+graph TD;
+  A[시작] --> B[진행];
+  B --> C[끝];
+```
+````
+
+---
+
+## 15. 다른 포스트로 링크하기 (post_url)
+
+```markdown
+다른 글은 {% post_url 2025-12-07-tree-and-graph %} 에서 볼 수 있습니다.
+```
+
+※ 실제로는 `_posts/2025-12-07-tree-and-graph.md` 같은 파일이 있어야 합니다.
+
+---
+
+## 16. 포스트 목록/인덱스 예시 (Jekyll 기본)
+
+어떤 페이지/레이아웃에서 포스트 목록을 만들 때:
+
+```liquid
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      {{ post.excerpt }}
+    </li>
+  {% endfor %}
+</ul>
+```
+
+---
+
+## 17. 드래프트(Drafts)
+
+* `_drafts` 폴더를 루트에 만들고
+* 날짜 없는 파일로 작성: `_drafts/a-draft-post.md`
+
+로컬에서 드래프트까지 같이 보려면:
+
+```bash
+jekyll serve --drafts
+# 또는
+jekyll build --drafts
+```
+
+---
+
+이 템플릿을 그대로 파일 하나로 저장해두고,
+새 글을 만들 때는:
+
+1. 이 파일 전체 복사 → 새 파일 `YYYY-MM-DD-title.md`에 붙여넣기
+2. 프론트 매터 값들(title, date, categories, tags, description 등) 실제 값으로 수정
+3. `published: false` → 실제 포스트이면 삭제하거나 `true`로 변경
+4. 필요 없는 기능(math, mermaid, media_subpath 등)은 그 줄을 삭제
+
+이렇게 쓰시면 됩니다.

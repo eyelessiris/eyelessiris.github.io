@@ -1,5 +1,12 @@
 시온
-
+https://sxonz.tistory.com/m/1
+https://sxonz.tistory.com/m/2
+https://sxonz.tistory.com/m/3
+https://sxonz.tistory.com/m/4
+https://sxonz.tistory.com/m/5
+https://sxonz.tistory.com/m/6
+https://sxonz.tistory.com/m/7
+https://sxonz.tistory.com/m/8
 트리
 용어정리
 이진트리
@@ -19,9 +26,10 @@
 
 그레프 탐색
 BFS, DFS
-
+---
 민기
-
+https://velog.io/@minki091212/%ED%8A%B8%EB%A6%AC
+https://velog.io/@minki091212/%EA%B7%B8%EB%9E%98%ED%94%84Graph
 트리
 트리의 용어들
 이진 트리의

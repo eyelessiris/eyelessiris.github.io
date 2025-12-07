@@ -19,7 +19,7 @@ title: 아이리스 # the main title
 tagline: 아이리스의 블로그 # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
-  A minimal, responsive and feature-rich Jekyll theme for technical writing.
+  아이리스의 블로그입니다.
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
@@ -35,7 +35,7 @@ social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
   name: 아이리스
-  email: eyelessiris@hotmail.com.com # change to your email address
+  email: eyelessiris@hotmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
     - https://github.com/eyelessiris # change to your GitHub homepage    
@@ -88,7 +88,7 @@ pageviews:
 #     light — Use the light color scheme
 #     dark — Use the dark color scheme
 #
-theme_mode: dark
+theme_mode: 
 
 # The CDN endpoint for media resources.
 # Notice that once it is assigned, the CDN url
@@ -140,7 +140,7 @@ assets:
 pwa:
   enabled: true # The option for PWA feature (installable)
   cache:
-    enabled: true # The option for PWA offline cache
+    enabled: false # The option for PWA offline cache
     # Paths defined here will be excluded from the PWA cache.
     # Usually its value is the `baseurl` of another website that
     # shares the same domain name as the current website.
